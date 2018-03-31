@@ -7,6 +7,18 @@ User = mongoose.model('users')
 
 const keys = require('../config/keys')
 
+
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+        User.findById(id)
+            .then(user => {
+                done(null, user)
+            })
+})
+
 passport.use(new GoogleStartegy({
         clientID: keys.googleClientId,
         clientSecret: keys.clientSecret,
